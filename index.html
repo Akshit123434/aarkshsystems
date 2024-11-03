@@ -7,78 +7,82 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             background-color: #f4f4f4;
         }
         header {
-            background: #007bff;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
             color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            margin: 0;
+            text-align: center;
         }
         nav {
-            display: flex;
+            position: absolute;
+            top: 10px;
+            right: 20px;
         }
-        nav a {
+        nav button {
+            background-color: #007bff;
             color: white;
-            margin-left: 20px;
-            text-decoration: none;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        nav button:hover {
+            background-color: #0056b3;
         }
         .container {
-            padding: 20px;
             background: white;
-            margin: 20px auto;
+            padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            display: none; /* Hide by default */
         }
-        h2 {
+        h1, h2 {
             text-align: center;
         }
-        .services {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .service {
-            background: #e7f1ff;
-            border-radius: 5px;
+        input {
+            width: 100%;
             padding: 10px;
-            width: 30%;
-            text-align: center;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #777;
-        }
-        .auth-buttons {
-            display: flex;
-            align-items: center;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
         button {
-            padding: 8px 12px;
+            width: 100%;
+            padding: 10px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 3px;
             cursor: pointer;
-            margin-left: 10px;
         }
         button:hover {
             background-color: #0056b3;
         }
-        .message {
+        #message {
             margin-top: 15px;
             text-align: center;
             color: red;
+        }
+        .small-font {
+            font-size: 12px;
+            text-align: center;
+        }
+        .about-section {
+            max-width: 600px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .services {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -86,42 +90,63 @@
     <header>
         <h1>Aarksh Systems</h1>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#shop">Shop</a>
-            <div class="auth-buttons">
-                <button id="signup-button">Sign Up</button>
-                <button id="login-button">Log In</button>
-            </div>
+            <button id="show-signup">Sign Up</button>
+            <button id="show-login">Log In</button>
         </nav>
     </header>
 
-    <div class="container">
-        <h2>WELCOME</h2>
-        <p>Aarksh Systems is a small tech and robotics company. We offer services like custom projects, web hosting, advertisement, courses, kits, and robotics competitions at very low prices. The founders of Aarksh Systems are Akshit Kumar and Aradhya Tapkire.</p>
-
-        <h2>Our Services</h2>
-        <div class="services">
-            <div class="service">
-                <h3>Robotic Kits</h3>
-                <p>High-quality robotic kits for all skill levels.</p>
-            </div>
-            <div class="service">
-                <h3>Microcontrollers Programming</h3>
-                <p>Expert programming services for microcontrollers.</p>
-            </div>
-            <div class="service">
-                <h3>Robotics Courses</h3>
-                <p>Learn robotics through our comprehensive courses.</p>
-            </div>
-            <div class="service">
-                <h3>Robotics Competitions</h3>
-                <p>Participate in exciting robotics competitions.</p>
-            </div>
+    <div id="signup-screen" class="container">
+        <h2>Sign Up</h2>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button id="signup-button">Sign Up</button>
+        <div id="message"></div>
+        <div class="small-font">
+            <p>Already have an account? <a href="#" id="toggle-login">Click to log in</a></p>
         </div>
+    </div>
 
-        <div class="message" id="message"></div>
+    <div id="login-screen" class="container">
+        <h2>Log In</h2>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button id="login-button">Log In</button>
+        <div id="message"></div>
+        <div class="small-font">
+            <p>Don't have an account? <a href="#" id="toggle-signup">Click to sign up</a></p>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>WELCOME</h2>
+        <p>Aarksh Systems is a small tech and robotics company. We offer services like custom projects, web hosting, advertisement, courses, kits, and Robotics Competitions at very low prices. The founders of Aarksh Systems are Akshit Kumar and Aradhya Tapkire.</p>
+    </div>
+
+    <div class="services">
+        <h2>Our Services</h2>
+        <ul>
+            <li>Robotic Kits</li>
+            <li>Microcontrollers Programming</li>
+            <li>Robotics Courses</li>
+            <li>Robotics Competitions</li>
+        </ul>
     </div>
 
     <script type="module" src="app.js" defer></script>
+    <script>
+        // Show sign up screen by default
+        document.getElementById('signup-screen').style.display = 'block';
+
+        // Toggle between sign up and login screens
+        document.getElementById('toggle-login').addEventListener('click', () => {
+            document.getElementById('signup-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'block';
+        });
+
+        document.getElementById('toggle-signup').addEventListener('click', () => {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('signup-screen').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
