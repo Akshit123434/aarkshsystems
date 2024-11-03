@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,11 +28,13 @@ document.getElementById('signup-button').addEventListener('click', () => {
             sendEmailVerification(userCredential.user)
                 .then(() => {
                     alert('Verification email sent! Please check your inbox.');
+                    document.getElementById('message').innerText = 'Check your email for verification.';
                 });
         })
         .catch((error) => {
             console.error('Error signing up:', error);
             alert(error.message);
+            document.getElementById('message').innerText = error.message;
         });
 });
 
@@ -43,16 +45,12 @@ document.getElementById('login-button').addEventListener('click', () => {
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            if (userCredential.user.emailVerified) {
-                alert('Thanks for logging in!');
-                // Redirect to the homepage or another page if needed
-                // window.location.href = "home.html"; // example redirect
-            } else {
-                alert('Please verify your email before logging in.');
-            }
+            // Successful login
+            document.getElementById('message').innerText = 'Thanks for logging in!';
         })
         .catch((error) => {
             console.error('Error logging in:', error);
-            alert('Email or password incorrect.');
+            alert('Email or password incorrect');
+            document.getElementById('message').innerText = 'Email or password incorrect';
         });
 });
