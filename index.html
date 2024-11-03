@@ -4,83 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aarksh Systems</title>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyA7v7jc9YMEc8_8OeGy2OLC2eHMqpTeOk0",
-            authDomain: "aarksh-systems.firebaseapp.com",
-            projectId: "aarksh-systems",
-            storageBucket: "aarksh-systems.firebasestorage.app",
-            messagingSenderId: "413708009493",
-            appId: "1:413708009493:web:98d9cf001effc1684cce1c",
-            measurementId: "G-T9CYH1YEPQ"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth();
-
-        // Login Function
-        window.login = () => {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    alert('Login successful');
-                    // Redirect or display user-specific content here
-                })
-                .catch((error) => {
-                    alert(error.message);
-                });
-        };
-
-        // Sign Up Function
-        window.signUp = () => {
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    alert('Sign-up successful');
-                    // Redirect or log in the user automatically here
-                })
-                .catch((error) => {
-                    alert(error.message);
-                });
-        };
-    </script>
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f3f3f3; margin: 0; }
-        #container { text-align: center; max-width: 400px; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #fff; }
-        h1 { color: #333; }
-        input { display: block; margin: 10px auto; padding: 10px; width: 90%; }
-        button { padding: 10px 20px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 5px; }
-    </style>
 </head>
 <body>
-    <div id="container">
-        <h1>Welcome to Aarksh Systems</h1>
-        
-        <!-- Login Form -->
-        <div id="login-section">
-            <h2>Login</h2>
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button onclick="login()">Login</button>
-        </div>
-
-        <!-- Sign Up Form -->
-        <div id="signup-section">
-            <h2>Sign Up</h2>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <button onclick="signUp()">Sign Up</button>
-        </div>
+    <h1>Welcome to Aarksh Systems</h1>
+    <div id="login">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email" />
+        <input type="password" id="login-password" placeholder="Password" />
+        <button id="login-button">Login</button>
     </div>
+    <div id="signup">
+        <h2>Sign Up</h2>
+        <input type="email" id="signup-email" placeholder="Email" />
+        <input type="password" id="signup-password" placeholder="Password" />
+        <button id="signup-button">Sign Up</button>
+    </div>
+    <script src="app.js" type="module"></script>
 </body>
 </html>
