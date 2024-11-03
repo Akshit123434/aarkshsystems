@@ -1,8 +1,8 @@
-// Import Firebase modules
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyA7v7jc9YMEc8_8OeGy2OLC2eHMqpTeOk0",
     authDomain: "aarksh-systems.firebaseapp.com",
@@ -17,33 +17,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Sign Up function
+// DOM elements
+const signupEmailInput = document.getElementById('signup-email');
+const signupPasswordInput = document.getElementById('signup-password');
+const loginEmailInput = document.getElementById('login-email');
+const loginPasswordInput = document.getElementById('login-password');
+const messageDiv = document.getElementById('message');
+
+// Sign Up Functionality
 document.getElementById('signup-button').addEventListener('click', () => {
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
+    const email = signupEmailInput.value;
+    const password = signupPasswordInput.value;
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            const user = userCredential.user;
-            sendEmailVerification(user).then(() => {
-                document.getElementById('message').textContent = 'Sign Up Successful! Please check your email for confirmation.';
-            });
+            // Send email verification
+            sendEmailVerification(userCredential.user)
+                .then(() => {
+                    messageDiv.textContent = "Verification email sent! Please check your inbox.";
+                });
         })
         .catch((error) => {
-            document.getElementById('message').textContent = error.message;
+            messageDiv.textContent = `Error: ${error.message}`;
         });
 });
 
-// Log In function
+// Log In Functionality
 document.getElementById('login-button').addEventListener('click', () => {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    const email = loginEmailInput.value;
+    const password = loginPasswordInput.value;
 
     signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            document.getElementById('message').textContent = 'Thanks for logging in!';
+        .then(() => {
+            messageDiv.textContent = "Thanks for logging in!";
+            // Optionally, redirect to another page or perform other actions
         })
         .catch((error) => {
-            document.getElementById('message').textContent = 'Email or password incorrect.';
+            messageDiv.textContent = `Email or password is incorrect: ${error.message}`;
         });
 });
