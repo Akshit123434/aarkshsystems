@@ -1,60 +1,58 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+// Import the necessary Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA7v7jc9YMEc8_8OeGy2OLC2eHMqpTeOk0",
-  authDomain: "aarksh-systems.firebaseapp.com",
-  projectId: "aarksh-systems",
-  storageBucket: "aarksh-systems.appspot.com",
-  messagingSenderId: "413708009493",
-  appId: "1:413708009493:web:98d9cf001effc1684cce1c",
-  measurementId: "G-T9CYH1YEPQ"
+    apiKey: "AIzaSyA7v7jc9YMEc8_8OeGy2OLC2eHMqpTeOk0",
+    authDomain: "aarksh-systems.firebaseapp.com",
+    projectId: "aarksh-systems",
+    storageBucket: "aarksh-systems.appspot.com",
+    messagingSenderId: "413708009493",
+    appId: "1:413708009493:web:98d9cf001effc1684cce1c",
+    measurementId: "G-T9CYH1YEPQ"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
-// Get elements
-const signupEmail = document.getElementById("signup-email");
-const signupPassword = document.getElementById("signup-password");
-const signupButton = document.getElementById("signup-button");
+// Sign Up function
+document.getElementById('signup-button').addEventListener('click', () => {
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
 
-const loginEmail = document.getElementById("login-email");
-const loginPassword = document.getElementById("login-password");
-const loginButton = document.getElementById("login-button");
-
-const messageDiv = document.getElementById("message");
-
-// Sign Up
-signupButton.addEventListener("click", async () => {
-    const email = signupEmail.value;
-    const password = signupPassword.value;
-
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await sendEmailVerification(userCredential.user);
-        messageDiv.textContent = "Verification email sent. Please check your email.";
-    } catch (error) {
-        messageDiv.textContent = error.message;
-    }
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            document.getElementById('message').textContent = 'Sign Up Successful! Please check your email for confirmation.';
+            // Send email verification
+            sendEmailVerification(user).then(() => {
+                // Email verification sent
+                console.log('Verification email sent.');
+            }).catch((error) => {
+                document.getElementById('message').textContent = error.message;
+            });
+        })
+        .catch((error) => {
+            document.getElementById('message').textContent = error.message;
+        });
 });
 
-// Login
-loginButton.addEventListener("click", async () => {
-    const email = loginEmail.value;
-    const password = loginPassword.value;
+// Log In function
+document.getElementById('login-button').addEventListener('click', () => {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
 
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        if (userCredential.user.emailVerified) {
-            messageDiv.textContent = "Thanks for logging in!";
-        } else {
-            messageDiv.textContent = "Please verify your email before logging in.";
-        }
-    } catch (error) {
-        messageDiv.textContent = "Email or password incorrect.";
-    }
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            document.getElementById('message').textContent = 'Thanks for logging in!';
+        })
+        .catch((error) => {
+            document.getElementById('message').textContent = 'Email or password incorrect.';
+        });
 });
