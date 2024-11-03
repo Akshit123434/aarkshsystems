@@ -21,6 +21,8 @@ const auth = getAuth(app);
 document.getElementById('signup-button').addEventListener('click', () => {
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
+    
+    console.log('Sign Up button clicked:', email, password); // Debugging
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -42,6 +44,8 @@ document.getElementById('signup-button').addEventListener('click', () => {
 document.getElementById('login-button').addEventListener('click', () => {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
+
+    console.log('Login button clicked:', email, password); // Debugging
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
