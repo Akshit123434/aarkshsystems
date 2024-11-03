@@ -1,24 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aarksh Systems</title>
-</head>
-<body>
-    <h1>Welcome to Aarksh Systems</h1>
-    <div id="login">
-        <h2>Login</h2>
-        <input type="email" id="login-email" placeholder="Email" />
-        <input type="password" id="login-password" placeholder="Password" />
-        <button id="login-button">Login</button>
-    </div>
-    <div id="signup">
-        <h2>Sign Up</h2>
-        <input type="email" id="signup-email" placeholder="Email" />
-        <input type="password" id="signup-password" placeholder="Password" />
-        <button id="signup-button">Sign Up</button>
-    </div>
-    <script type="module" src="app.js"></script>
-</body>
-</html>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyA7v7jc9YMEc8_8OeGy2OLC2eHMqpTeOk0",
+    authDomain: "aarksh-systems.firebaseapp.com",
+    projectId: "aarksh-systems",
+    storageBucket: "aarksh-systems.appspot.com",
+    messagingSenderId: "413708009493",
+    appId: "1:413708009493:web:98d9cf001effc1684cce1c",
+    measurementId: "G-T9CYH1YEPQ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Sign up function
+document.getElementById('signup-button').addEventListener('click', () => {
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Send verification email
+            sendEmailVerification(userCredential.user)
+                .then(() => {
+                    alert('Verification email sent! Please check your inbox.');
+                });
+        })
+        .catch((error) => {
+            console.error('Error signing up:', error);
+            alert(error.message);
+        });
+});
+
+// Login function
+document.getElementById('login-button').addEventListener('click', () => {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            if (userCredential.user.emailVerified) {
+                alert('Thanks for logging in!');
+                // Redirect to the homepage or another page if needed
+                // window.location.href = "home.html"; // example redirect
+            } else {
+                alert('Please verify your email before logging in.');
+            }
+        })
+        .catch((error) => {
+            console.error('Error logging in:', error);
+            alert('Email or password incorrect.');
+        });
+});
